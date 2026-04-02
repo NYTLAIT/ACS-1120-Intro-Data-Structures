@@ -10,4 +10,5 @@ chosen_words = sample(all_words, k=num_of_words)
 stripped_words = [word.strip() for word in chosen_words]
 
 print(stripped_words[0].capitalize() + ' ' + ' '.join(stripped_words[1:]) + '.')
-    
+
+# ISSUE: Will produce incorrect spacing if only 1 word (e.g. 'Word .')
