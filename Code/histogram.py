@@ -22,8 +22,16 @@ def histogram(source_text):
 def unique_words(histogram):
     return len(histogram)
 
+def frequency(given_word, histogram):
+    word = given_word.strip().lower()
+    if histogram[word]:
+        return histogram[word]
+    else:
+        return 0
+
 if __name__ == '__main__':
     text = 'shackleton_quotes.txt'
     text_histogram = histogram(text)
     print('histogram ------', text_histogram)
     print('unique_words -------', unique_words(text_histogram))
+    print('frequency -------', frequency('I', text_histogram))
