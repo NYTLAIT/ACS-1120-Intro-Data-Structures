@@ -1,13 +1,21 @@
 import re
 
 def histogram(source_text):
-    # Clean up words
-    with open(source_text, 'r') as infile:
-        raw_text = infile.read()
+    # Obtain corpus
+    try: 
+        with open(source_text, 'r') as infile:
+            raw_text = infile.read()
+    except:
+        try:
+            if type(source_text) == str:
+                raw_text = source_text
+        except:
+            return print('Invalid text - Accepts only string and txt')
 
+    # Grab individual words
     split_words = re.split(r"[^\w+']", raw_text)
     print('Split up words ------', split_words, '\n')
-
+    # Clean up words
     words = [word.lower() for word in split_words if word]
     print('Clean up words ------', words, '\n')
 
@@ -16,6 +24,7 @@ def histogram(source_text):
     for word in words:
         histogram[word] = histogram.get(word, 0) + 1
 
+    # Return histogram
     return histogram
 
 
@@ -37,3 +46,7 @@ if __name__ == '__main__':
 # Known Issues: 
 # 1. Takes txt and not string; no safeguard 
 # 2. Apostrophes that are not to extend words can cause issues
+
+
+# TODO:
+# 1. Make documentations(doc strings)
