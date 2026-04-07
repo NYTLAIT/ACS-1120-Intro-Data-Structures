@@ -9,7 +9,7 @@ def histogram(source_text):
     print('Split up words ------', split_words, '\n')
 
     words = [word.lower() for word in split_words if word]
-    print('Cleaned up words ------', words, '\n')
+    print('Clean up words ------', words, '\n')
 
     # Build Historgram
     histogram = {}
@@ -27,9 +27,13 @@ def frequency(given_word, histogram):
     return histogram.get(word, 0)
 
 if __name__ == '__main__':
-    text = 'shackleton_quotes.txt'
+    text = 'shackleton_quote.txt'
     text_histogram = histogram(text)
     given_word = "That's"
     print('histogram ------', text_histogram)
     print('unique_words -------', unique_words(text_histogram))
     print('frequency -------', f'{given_word}: {frequency(given_word, text_histogram)}')
+
+# Known Issues: 
+# 1. Takes txt and not string; no safeguard 
+# 2. Apostrophes that are not to extend words can cause issues
