@@ -11,15 +11,13 @@ def random_word(histogram):
     return word
 
 def weighted_random_word(histogram):
-    words = list(histogram)
-
     tokens = sum(list(histogram.values()))
     dart = random.randint(1, tokens)
     print('tokens ------', tokens)
     print('dart ------', dart)
 
     border = 0
-    for word in words:
+    for word in histogram:
         border += histogram[word]
         if border >= dart:
             print('word ------', word)
