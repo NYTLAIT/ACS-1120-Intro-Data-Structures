@@ -25,7 +25,7 @@ class Listogram(list):
                 listword[1] += count
                 return
         
-        self.append((word, count))
+        self.append([word, count])
         self.types += 1
 
     def frequency(self, word):
@@ -133,3 +133,20 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # listogram = Listogram(["one", "fish", "two", "fish", "red", "fish", "blue", "fish"])
+
+    # print(listogram)
+    # print("tokens ------ ", listogram.tokens)
+    # print("types ------ ", listogram.types)
+
+    # print("one count ------", listogram.frequency("one"))
+    # print("fish count ------", listogram.frequency("fish"))
+
+    # if listogram.__contains__('green'):
+    #     print('Somethings wrong with __contain__')
+    # else:
+    #     print('__contain__ working as intended')
+
+    # print("fish index ------", listogram.index_of("fish"))
+
+    # print("sample ------", listogram.sample())
