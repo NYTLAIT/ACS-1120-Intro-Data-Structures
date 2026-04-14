@@ -10,10 +10,9 @@ class Dictogram(dict):
     def __init__(self, word_list=None):
         """Initialize this histogram as a new dict and count given words."""
         super(Dictogram, self).__init__()  # Initialize this as a new dict
-        # Add properties to track useful word counts for this histogram
-        # Instances are dictionaries themselves as well
         self.types = 0  # Count of distinct word types in this histogram
         self.tokens = 0  # Total count of all word tokens in this histogram
+
         # Count words in given list, if any
         if word_list is not None:
             for word in word_list:
@@ -31,15 +30,17 @@ class Dictogram(dict):
 
     def frequency(self, word):
         """Return frequency count of given word, or 0 if word is not found."""
-        if self[word]:
-            return self[word]
-        else:
-            return 0
+        return self.get(word, 0)
 
     def sample(self):
         """Return a word from this histogram, randomly sampled by weighting
         each word's probability of being chosen by its observed frequency."""
-        # TODO: Randomly choose a word based on its frequency in this histogram
+        dart = random.randint(1, self.tokens)
+        border = 0
+        for word in self:
+            border += self[word]
+            if border >= dart:
+                return word
 
 
 def print_histogram(word_list):
@@ -114,3 +115,15 @@ def main():
 
 if __name__ == '__main__':
     main()
+    dictogram = Dictogram(["one", "fish", "two", "fish", "red", "fish", "blue", "fish"])
+
+    print(dictogram)
+    print("tokens ------ ", dictogram.tokens)
+    print("types ------ ", dictogram.types)
+
+    print("one count ------", dictogram.frequency("one"))
+    print("fish count ------", dictogram.frequency("fish"))
+
+    print("sample ------", dictogram.sample())
+
+    # 8, 5, 1, 4
