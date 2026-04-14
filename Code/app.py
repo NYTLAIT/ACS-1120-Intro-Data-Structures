@@ -1,4 +1,5 @@
 """Main script, uses other modules to generate sentences."""
+print('Running app.py!')
 from flask import Flask
 
 app = Flask(__name__)
@@ -10,9 +11,7 @@ from stochastic_sampling import weighted_random_word
 
 @app.route("/")
 def home():
-    """Route that returns a web page containing the generated text."""
-    word = weighted_random_word(histogram('one fish, two fish, red fish, blue fish'))
-    return f"<p>{word}</p>"
+    return 'Works!'
 
 
 if __name__ == "__main__":
