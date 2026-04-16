@@ -1,14 +1,6 @@
 import re
 
-def histogram(source_text):
-    """
-    Generate a frequency histogram via dictionary from a txt file or string
-    
-    Args:
-        source_text (str, .txt): body of text to be represented as the histogram
-    Returns:
-        ditionary: a frequency histogram - keys are the words and their value are their frequency
-    """
+def make_wordslist(source_text):
     # Obtain corpus
     raw_text = None
     try: 
@@ -28,10 +20,25 @@ def histogram(source_text):
     words = [word.lower() for word in split_words if word]
             # print('Clean up words ------', words, '\n')
 
+    return words
+
+
+def histogram(source_text):
+    """
+    Generate a frequency histogram via dictionary from a txt file or string
+    
+    Args:
+        source_text (str, .txt): body of text to be represented as the histogram
+    Returns:
+        ditionary: a frequency histogram - keys are the words and their value are their frequency
+    """
+    words = make_wordslist(source_text)
+
     # Build Historgram
     histogram = {}
-    for word in words:
-        histogram[word] = histogram.get(word, 0) + 1
+    if words:
+        for word in words:
+            histogram[word] = histogram.get(word, 0) + 1
 
     # Return histogram
     return histogram
