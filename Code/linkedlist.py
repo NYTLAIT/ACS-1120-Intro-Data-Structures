@@ -52,27 +52,63 @@ class LinkedList:
 
     def length(self):
         """Return the length of this linked list by traversing its nodes.
-        TODO: Running time: O(n) Why and under what conditions?"""
-        # TODO: Loop through all nodes and count one for each
+        NOTE: Running time: O(n) Why and under what conditions?
+        -> Have to loop through each node to know of its existence to update the count
+        and know location, else it may not know what its already looped through"""
+        # NOTE: Loop through all nodes and count one for each
+        count = 0
+        node = self.head
+        while node is not None:
+            count += 1
+            node = node.next
+        return count
 
     def append(self, item):
         """Insert the given item at the tail of this linked list.
-        TODO: Running time: O(???) Why and under what conditions?"""
-        # TODO: Create new node to hold given item
-        # TODO: If self.is_empty() == True set the head and the tail to the new node
-        # TODO: Else append node after tail
+        NOTE: Running time: O(???) Why and under what conditions?
+        -> Run time: O(1) since there are no loops at all, tail.node is already defined
+        so theres no need to loop, its just reassignment and assignment"""
+        # NOTE: Create new node to hold given item
+        node = Node(item)
+        # NOTE: If self.is_empty() == True set the head and the tail to the new node
+        if self.is_empty():
+            self.head = node
+            self.tail = node
+        # NOTE: Else append node after tail
+        # and make new node the tail node
+        else:
+            self.tail.next = node
+            self.tail = node
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list.
-        TODO: Running time: O(???) Why and under what conditions?"""
-        # TODO: Create new node to hold given item
-        # TODO: Prepend node before head, if it exists
+        NOTE: Running time: O(???) Why and under what conditions?
+        -> O(1): no loops, just assignment and reassignment"""
+        # NOTE: Create new node to hold given item
+        node = Node(item)
+        # NOTE: Prepend node before head, if it exists
+        if self.is_empty():
+            self.head = node
+            self.tail = node
+        else:
+            node.next = self.head
+            self.head = node
 
     def find(self, matcher):
         """Return an item from this linked list if it is present.
-        TODO: Best case running time: O(???) Why and under what conditions?
-        TODO: Worst case running time: O(???) Why and under what conditions?"""
-        # TODO: Loop through all nodes to find item, if present return True otherwise False
+        NOTE: Best case running time: O(???) Why and under what conditions
+        -> O(1): if item is in head, 
+        since head and tail already defined simple look up or matching
+        NOTE: Worst case running time: O(???) Why and under what conditions?
+        -> O(n): if item not in head or tail, and especially if node does not exist,
+        must run through each node until found or not found"""
+        # TODO: Loop through all nodes to find item, if present return item
+        node = self.head
+        while node is not None:
+            if node.data == matcher:
+                return node.data
+            node = node.next
+        return False
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
