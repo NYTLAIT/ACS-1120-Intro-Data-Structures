@@ -102,22 +102,40 @@ class LinkedList:
         NOTE: Worst case running time: O(???) Why and under what conditions?
         -> O(n): if item not in head or tail, and especially if node does not exist,
         must run through each node until found or not found"""
-        # TODO: Loop through all nodes to find item, if present return item
+        # NOTE: Loop through all nodes to find item, if present return item, else none
         node = self.head
         while node is not None:
-            if node.data == matcher:
+            if matcher(node.data):
                 return node.data
             node = node.next
-        return False
+        return None
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
         TODO: Best case running time: O(???) Why and under what conditions?
-        TODO: Worst case running time: O(???) Why and under what conditions?"""
+        -> O(1): if item is in head, 
+        since head and tail already defined simple look up or matching
+        TODO: Worst case running time: O(???) Why and under what conditions?
+        -> O(n): if item not in head or tail, and especially if node does not exist,
+        must run through each node until found or not found"""
         # TODO: Loop through all nodes to find one whose data matches given item
+        prev = None
+        node = self.head
+        while node is not None:
         # TODO: Update previous node to skip around node with matching data
+            if node.data == item:
+                if prev:
+                    prev.next = node.next
+                else:
+                    self.head = node.next
+                if node.next is None:
+                    self.tail = prev
+                return
+            prev = node
+            node = node.next
         # TODO: Otherwise raise error to tell user that delete has failed
         # Hint: raise ValueError('Item not found: {}'.format(item))
+        raise ValueError('Item not found: {}'.format(item))
 
 
 def test_linked_list():
