@@ -8,6 +8,7 @@ class HashTable(object):
     def __init__(self, init_size=8):
         """Initialize this hash table with the given initial size."""
         # Create a new list (used as fixed-size array) of empty linked lists
+        self.b = init_size
         self.buckets = []
         for i in range(init_size):
             self.buckets.append(LinkedList())
@@ -53,7 +54,7 @@ class HashTable(object):
 
     def items(self):
         """Return a list of all items (key-value pairs) in this hash table.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        NOTE: Running time: O(n) Loops through all buckets"""
         # Collect all pairs of key-value entries in each bucket
         all_items = []
         for bucket in self.buckets:
@@ -62,23 +63,41 @@ class HashTable(object):
 
     def length(self):
         """Return the number of key-value entries by traversing its buckets.
-        TODO: Running time: O(???) Why and under what conditions?"""
-        # TODO: Loop through all buckets
-        # TODO: Count number of key-value entries in each bucket
+        NOTE: Running time: O(n) Have to loop through buckets and
+        the items in buckets. Still O(n) even if buckets empty since still looping through buckets"""
+        length = 0
+        # NOTE: Loop through all buckets
+        for bucket in self.buckets:
+        # NOTE: Count number of key-value entries in each bucket
+            length += bucket.length()
+        return length
 
     def contains(self, key):
         """Return True if this hash table contains the given key, or False.
-        TODO: Running time: O(???) Why and under what conditions?"""
-        # TODO: Find bucket where given key belongs
-        # TODO: Check if key-value entry exists in bucket
+        NOTE: Running time: O(n) Search for bucket is O(b) but have to loop through bucket to find item.
+        -> Best case run time: O(1) Item is in the head node so theres no need to iterate"""
+        # NOTE: Find bucket where given key belongs
+        bucket = hash(key) % self.b
+        # NOTE: Check if key-value entry exists in bucket
+        if self.buckets[bucket].find(lambda item: item[0] == key):
+            return True
+        else:
+            return False
 
     def get(self, key):
         """Return the value associated with the given key, or raise KeyError.
-        TODO: Running time: O(???) Why and under what conditions?"""
-        # TODO: Find bucket where given key belongs
-        # TODO: Check if key-value entry exists in bucket
-        # TODO: If found, return value associated with given key
-        # TODO: Otherwise, raise error to tell user get failed
+        NOTE: Running time: O(n) Search for bucket is O(b) but have to loop through bucket to find item.
+        -> Best case run time: O(1) Item is in the head node so theres no need to iterate"""
+        # NOTE: Find bucket where given key belongs
+        bucket = hash(key) % self.b
+        # NOTE: Check if key-value entry exists in bucket
+        result = self.buckets[bucket].find(lambda item: item[0] == key)
+        if result:
+        # NOTE: If found, return value associated with given key
+            return result[1]
+        # NOTE: Otherwise, raise error to tell user get failed
+        else:
+            raise KeyError('Key not found: {}'.format(key))
         # Hint: raise KeyError('Key not found: {}'.format(key))
 
     def set(self, key, value):
