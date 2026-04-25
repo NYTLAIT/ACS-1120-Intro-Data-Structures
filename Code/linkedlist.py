@@ -138,7 +138,7 @@ class LinkedList:
         raise ValueError('Item not found: {}'.format(item))
     
     def replace(self, target, item):
-        """Return True after 'replacing' node data if present, else False"""
+        """'Replacing' node data if present, else raise ValueError"""
         prev = None
         node = self.head
         while node is not None:
@@ -151,10 +151,10 @@ class LinkedList:
                     self.head = new_node
                 if node.next is None:
                     self.tail = new_node
-                return True
+                return
             prev = node
             node = node.next
-        return False
+        raise ValueError('Item not found: {}'.format(item))
 
 def test_linked_list():
     ll = LinkedList()

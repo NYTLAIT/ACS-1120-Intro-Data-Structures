@@ -74,7 +74,7 @@ class HashTable(object):
 
     def contains(self, key):
         """Return True if this hash table contains the given key, or False.
-        NOTE: Running time: O(n) Search for bucket is O(b) but have to loop through bucket to find item.
+        NOTE: Running time: O(n) Search for bucket is O(1) but have to loop through bucket to find item.
         -> Best case run time: O(1) Item is in the head node so theres no need to iterate"""
         # NOTE: Find bucket where given key belongs
         bucket = hash(key) % self.b
@@ -86,14 +86,14 @@ class HashTable(object):
 
     def get(self, key):
         """Return the value associated with the given key, or raise KeyError.
-        NOTE: Running time: O(n) Search for bucket is O(b) but have to loop through bucket to find item.
+        NOTE: Running time: O(n) Search for bucket is O(1) but have to loop through bucket to find item.
         -> Best case run time: O(1) Item is in the head node so theres no need to iterate"""
         # NOTE: Find bucket where given key belongs
         bucket = hash(key) % self.b
         # NOTE: Check if key-value entry exists in bucket
         result = self.buckets[bucket].find(lambda item: item[0] == key)
         # NOTE: If found, return value associated with given key
-        if result:
+        if result is not None:
             return result[1]
         # NOTE: Otherwise, raise error to tell user get failed
         else:
@@ -102,23 +102,33 @@ class HashTable(object):
 
     def set(self, key, value):
         """Insert or update the given key with its associated value.
-        NOTE: Running time: O(n) Search for bucket is O(b) but have to loop through bucket to find item.
+        NOTE: Running time: O(n) Search for bucket is O(1) but have to loop through bucket to find item.
         -> Best case run time: O(1) Item is in the head node so theres no need to iterate"""
-        # TODO: Find bucket where given key belongs
+        # NOTE: Find bucket where given key belongs
         bucket = hash(key) % self.b
-        # TODO: Check if key-value entry exists in bucket
+        # NOTE: Check if key-value entry exists in bucket
         result = self.buckets[bucket].find(lambda item: item[0] == key)
-        # TODO: If found, update value associated with given key
-        if result:
-        # TODO: Otherwise, insert given key-value entry into bucket
+        # NOTE: If found, update value associated with given key
+        if result is not None:
+            self.buckets[bucket].delete(result)
+        # NOTE: Otherwise, insert given key-value entry into bucket
+        self.buckets[bucket].prepend((key, value))
+
 
     def delete(self, key):
         """Delete the given key from this hash table, or raise KeyError.
-        TODO: Running time: O(???) Why and under what conditions?"""
-        # TODO: Find bucket where given key belongs
-        # TODO: Check if key-value entry exists in bucket
-        # TODO: If found, delete entry associated with given key
+        NOTE: Running time: O(n) Search for bucket is O(1) but have to loop through bucket to find item.
+        -> Best case run time: O(1) Item is in the head node so theres no need to iterate"""
+        # NOTE: Find bucket where given key belongs
+        bucket = hash(key) % self.b
+        # NOTE: Check if key-value entry exists in bucket
+        result = self.buckets[bucket].find(lambda item: item[0] == key)
+        # NOTE: If found, delete entry associated with given key
+        if result is not None:
+            self.buckets[bucket].delete(result)
         # TODO: Otherwise, raise error to tell user delete failed
+        else:
+            raise KeyError('Key not found: {}'.format(key))
         # Hint: raise KeyError('Key not found: {}'.format(key))
 
 def test_hash_table():
