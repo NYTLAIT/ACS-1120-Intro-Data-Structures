@@ -136,7 +136,25 @@ class LinkedList:
         # TODO: Otherwise raise error to tell user that delete has failed
         # Hint: raise ValueError('Item not found: {}'.format(item))
         raise ValueError('Item not found: {}'.format(item))
-
+    
+    def replace(self, target, item):
+        """Return True after 'replacing' node data if present, else False"""
+        prev = None
+        node = self.head
+        while node is not None:
+            if node.data == target:
+                new_node = Node(item)
+                new_node.next = node.next
+                if prev:
+                    prev.next = new_node
+                else:
+                    self.head = new_node
+                if node.next is None:
+                    self.tail = new_node
+                return True
+            prev = node
+            node = node.next
+        return False
 
 def test_linked_list():
     ll = LinkedList()

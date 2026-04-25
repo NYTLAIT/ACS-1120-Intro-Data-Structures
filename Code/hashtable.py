@@ -92,8 +92,8 @@ class HashTable(object):
         bucket = hash(key) % self.b
         # NOTE: Check if key-value entry exists in bucket
         result = self.buckets[bucket].find(lambda item: item[0] == key)
-        if result:
         # NOTE: If found, return value associated with given key
+        if result:
             return result[1]
         # NOTE: Otherwise, raise error to tell user get failed
         else:
@@ -102,10 +102,14 @@ class HashTable(object):
 
     def set(self, key, value):
         """Insert or update the given key with its associated value.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        NOTE: Running time: O(n) Search for bucket is O(b) but have to loop through bucket to find item.
+        -> Best case run time: O(1) Item is in the head node so theres no need to iterate"""
         # TODO: Find bucket where given key belongs
+        bucket = hash(key) % self.b
         # TODO: Check if key-value entry exists in bucket
+        result = self.buckets[bucket].find(lambda item: item[0] == key)
         # TODO: If found, update value associated with given key
+        if result:
         # TODO: Otherwise, insert given key-value entry into bucket
 
     def delete(self, key):
