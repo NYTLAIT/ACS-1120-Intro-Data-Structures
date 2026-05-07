@@ -24,7 +24,7 @@ def make_second_order_markov(tokens):
 
 # --- RANDOM WALK ---
 # HELPER - to handle starts in random walk
-def process_start(chain, fallback, start=None):
+def process_random_walk_second_order_start(chain, fallback, start):
     '''
     Handles starting input:
     - None -> random state
@@ -81,23 +81,49 @@ def process_start(chain, fallback, start=None):
     return random.choice(states)
 
 
-
 # RANDOM WALK FOR SECOND ORDER MARKOV CHAIN
-def random_walk_second_order(chain, num_words, start):
-    state = 
+def random_walk_second_order(chain, fallback=None, num_sentences=6, start=None):
+    # get the starting state
+    state = process_random_walk_second_order_start(chain, fallback, start)
 
+    # initialize the text with the first two words and sentence count
+    generated_text_list = [state[0], state[1]]
+    sentences_completed = 0
 
-    text = [start_pair[0], start_pair[1]]
-    text = [start_word]
-    current_word = start_word.lower().strip()
-
-    for _ in range(num_words - 1):
-        if current_word not in markov_chain:
+    # generate the rest
+    while sentences_completed < num_sentences:
+        # safety check
+        if state not in chain:
+            print('Early End to Chain')
             break
-        next_words = markov_chain[current_word]
+
+        # possible next words for state
+        next_words = chain[state]
+        # weighted random selection (check import)
         next_word = weighted_random_word(next_words)
 
-        text.append(next_word)
-        current_word = next_word
-    
-    return ' '.join(text) + '.'
+        # append result
+        generated_text_list.append(next_word)
+
+        # check sentence end and update sentences completed if applicable
+        if next_word in [".", "!", "?"]:
+            sentences_completed += 1
+
+        # update state
+        state = (state[1], next_word)
+
+    # -- Clean up text --
+    generated_text = ' '.join(generated_text_list)
+
+    # Fix punctuation spacing (I think it catches everyting needed)
+    generated_text = generated_text.replace(" ,", ",")
+    generated_text = generated_text.replace(" .", ".")
+    generated_text = generated_text.replace(" !", "!")
+    generated_text = generated_text.replace(" ?", "?")
+    generated_text = generated_text.replace(" ;", ";")
+    generated_text = generated_text.replace(" :", ":")
+
+    # Make sure first word is capitalized
+    generated_text = generated_text[0].upper() + generated_text[1:]
+
+    return generated_text
