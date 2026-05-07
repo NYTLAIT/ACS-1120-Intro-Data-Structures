@@ -1,4 +1,4 @@
-from stochastic_sampling import weighted_random_word
+from random_walk import weighted_random_word
 import random
 
 # --- SECOND ORDER MARKOV CHAIN ---
@@ -8,7 +8,7 @@ def make_second_order_markov(tokens):
     for i in range(len(tokens) - 2):
 
         word1 = tokens[i]
-        word2 = tokens[i + 2]
+        word2 = tokens[i + 1]
         next_word = tokens[i + 2]
 
         state = (word1, word2)
