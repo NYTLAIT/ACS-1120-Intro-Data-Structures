@@ -3,7 +3,6 @@ import re
 # NOTE: MUST BE USED IN ORDER
 # 1. validate_text
 # 2. tokenize
-# 3. normalize_tokens
 
 def validate_text(source_text):
     '''
